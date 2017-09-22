@@ -51,6 +51,12 @@ report(Spans, Opts) ->
             Error = jsx:decode(ErrorJson, [return_maps]),
             error_logger:info_msg("failed to upload spans to google trace: ~p", [Error]),
             %% try again with a backoff?
+            ok;
+        {error, timeout} ->
+            %% try again with a backoff?
+            ok;
+        {error, _Reason} ->
+            %% try again with a backoff?
             ok
     end.
 
