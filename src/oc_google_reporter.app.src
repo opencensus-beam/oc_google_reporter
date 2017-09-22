@@ -1,0 +1,19 @@
+{application, oc_google_reporter,
+ [{description, " OpenCensus reporter for Google Trace v1"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib,
+    ssl,
+    hackney,
+    jsx,
+    wts
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, ["Tristan Sloughter"]},
+  {licenses, ["Apache 2.0"]},
+  {links, [{"Github", "https://github.com/tsloughter/oc_google_reporter"}]}
+ ]}.
