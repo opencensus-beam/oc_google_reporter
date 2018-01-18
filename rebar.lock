@@ -8,7 +8,7 @@
  {<<"mimerl">>,{pkg,<<"mimerl">>,<<"1.0.2">>},1},
  {<<"opencensus">>,
   {git,"https://github.com/census-instrumentation/opencensus-erlang.git",
-       {ref,"b8fecf303896a9bdbfe9d1f83371a5bc1e88a28a"}},
+       {ref,"62635d5afd298978294fa2e79e9ec33e15a0df4c"}},
   0},
  {<<"rfc3339">>,{pkg,<<"rfc3339">>,<<"0.9.0">>},1},
  {<<"ssl_verify_fun">>,{pkg,<<"ssl_verify_fun">>,<<"1.1.1">>},1},
