@@ -43,11 +43,12 @@ report(Spans, Opts) ->
     Headers = augle:headers(Creds),
     PatchBody = jsx:encode(#{traces => format_spans(ProjectId, Spans)}),
     case hackney:patch(?TRACE_URL(ProjectId), Headers, PatchBody, []) of
-        {ok, Status, _Headers, _Client} when Status =:= 204
-                                           ; Status =:= 200 ->
+        {ok, Status, _Headers, Ref} when Status =:= 204
+                                       ; Status =:= 200 ->
+            {ok, _Body} = hackney:body(Ref),
             ok;
-        {ok, _Status, _Headers, Client} ->
-            {ok, ErrorJson} = hackney:body(Client),
+        {ok, _Status, _Headers, Ref} ->
+            {ok, ErrorJson} = hackney:body(Ref),
             Error = jsx:decode(ErrorJson, [return_maps]),
             error_logger:info_msg("failed to upload spans to google trace: ~p", [Error]),
             %% try again with a backoff?
