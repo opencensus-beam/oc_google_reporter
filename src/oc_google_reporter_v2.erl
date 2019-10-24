@@ -72,10 +72,15 @@ trunc_string(V) ->
     #{<<"value">> => V,
       <<"truncatedByteCount">> => 0}.
 
+format_attribute_map(_K, V) when is_integer(V) -> #{<<"int_value">> => V};
+format_attribute_map(_K, V) when is_boolean(V) -> #{<<"bool_value">> => V};
+format_attribute_map(_K, V) -> #{<<"string_value">> => trunc_string(V)}.
+
 to_map(_, undefined) -> undefined;
-to_map(attributes, Map) ->
-    {AttributeMap, Dropped} = drop(maps:to_list(Map), 32),
-    #{<<"attribute_map">> => maps:from_list(AttributeMap),
+to_map(attributes, AttributeMap) ->
+    {TruncatedAttributeMap, Dropped} = drop(maps:to_list(AttributeMap), 32),
+    AttributeMap = maps:from_list(TruncatedAttributeMap),
+    #{<<"attribute_map">> => maps:map(fun format_attribute_map/2, AttributeMap),
       <<"dropped_attributes_count">> => Dropped};
 to_map(annotation, #annotation{description=Description,
                                attributes=Attributes}) ->
