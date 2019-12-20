@@ -43,11 +43,12 @@ report(Spans, Opts) ->
     Headers = augle:headers(Creds),
     PatchBody = jsx:encode(#{spans => format_spans(ProjectId, Spans)}),
     case hackney:post(?TRACE_URL(ProjectId), Headers, PatchBody, []) of
-        {ok, Status, _Headers, _Client} when Status =:= 204
-                                           ; Status =:= 200 ->
+        {ok, Status, _Headers, Ref} when Status =:= 204
+                                       ; Status =:= 200 ->
+            {ok, _Body} = hackney:body(Ref),
             ok;
-        {ok, _Status, RespHeaders, Client} ->
-            {ok, ErrorBody} = hackney:body(Client),
+        {ok, _Status, RespHeaders, Ref} ->
+            {ok, ErrorBody} = hackney:body(Ref),
             case lists:keyfind(<<"Content-Type">>, 1, RespHeaders) of
                 {_, <<"application/json", _/binary>>} ->
                     Error = jsx:decode(ErrorBody, [return_maps]),
