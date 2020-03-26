@@ -1,6 +1,6 @@
 {application, oc_google_reporter,
  [{description, " OpenCensus reporter for Google Trace v1 and v2"},
-  {vsn, "0.3.0"},
+  {vsn, "0.4.0"},
   {registered, []},
   {applications,
    [kernel,
